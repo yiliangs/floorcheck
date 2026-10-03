@@ -1,0 +1,51 @@
+{
+  "level": 0.05,
+  "provenance": {
+    "command": "python -m tools.plan_level_floor data/derived/panel/run13-plans --emit floorcheck/plan-level-floors.json --level 0.05",
+    "commit": "7d36c3296194a1938851934e30c571a11fd78715",
+    "input": "every real plan of data/derived/panel/run13-plans, by run group {'rplan': 4000, 'msd units': 14323, 'msd': 4028}, each plan fitted under the kind floorcheck grades it as (floor_kind over its corpus and the apartments its rooms state); floors rounded to four decimals, propReq before the bedroom cap"
+  },
+  "kinds": {
+    "rplan": {
+      "compactness": 0.365,
+      "propReq": {
+        "Balcony": 0.1424,
+        "Bathroom": 0.3413,
+        "Bedroom": 0.4747,
+        "Closet": 0.194,
+        "DiningRoom": 0.3098,
+        "Foyer": 0.3376,
+        "GuestRoom": 0.4655,
+        "Kitchen": 0.2748,
+        "LivingRoom": 0.3486,
+        "PrimaryBedroom": 0.4553
+      }
+    },
+    "msd-unit": {
+      "compactness": 0.3237,
+      "propReq": {
+        "Balcony": 0.1193,
+        "Bathroom": 0.3516,
+        "Bedroom": 0.4419,
+        "Closet": 0.2236,
+        "DiningRoom": 0.3896,
+        "Hallway": 0.1949,
+        "Kitchen": 0.3043,
+        "LivingRoom": 0.3218
+      }
+    },
+    "msd-floor": {
+      "compactness": 0.2406,
+      "propReq": {
+        "Balcony": 0.0954,
+        "Bathroom": 0.2973,
+        "Bedroom": 0.3978,
+        "Closet": 0.162,
+        "DiningRoom": 0.3651,
+        "Hallway": 0.124,
+        "Kitchen": 0.2669,
+        "LivingRoom": 0.2959
+      }
+    }
+  }
+}

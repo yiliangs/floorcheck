@@ -1,0 +1,14 @@
+[
+  {
+    "group": "msd",
+    "corpus": "msd",
+    "directory": "data/msd/msd",
+    "written": 4028
+  },
+  {
+    "group": "msd units",
+    "corpus": "msd",
+    "directory": "data/msd/msd_units",
+    "written": 14323
+  }
+]

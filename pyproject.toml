@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "floorcheck"
+version = "0.1.0"
+description = "A public checker that grades room-polygon floor plans against the transferable subset of a gate ladder, with the converter that writes its plan schema from RPLAN, MSD and generator outputs."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Yiliang Shao" }]
+requires-python = ">=3.11"
+dependencies = [
+    "shapely>=2",
+    "numpy",
+    "scipy",
+    "networkx",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+# The MSD graph pickles hold torch tensors, so exporting from raw MSD needs torch.
+msd = ["torch"]
+
+[project.scripts]
+floorcheck = "floorcheck.__main__:main"
+floorcheck-export = "tools.export_plans:main"
+floorcheck-outcomes = "tools.checker_outcomes:main"
+floorcheck-floors = "tools.plan_level_floor:main"
+floorcheck-buildings = "tools.msd_buildings:main"
+
+[tool.setuptools]
+packages = ["floorcheck", "planaudit", "planaudit.datasets", "tools"]
+
+[tool.setuptools.package-data]
+floorcheck = ["category-statistics.md", "plan-level-floors.json", "SCHEMA.md", "examples/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

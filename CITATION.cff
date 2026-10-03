@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this checker or the plan documents it ships, please cite it as below, and cite the Modified Swiss Dwellings dataset as ATTRIBUTION.md states."
+title: "floorcheck: a public checker for room-polygon floor plans"
+type: software
+version: "0.1.0"
+license: MIT
+authors:
+  - family-names: Shao
+    given-names: Yiliang
+references:
+  - type: conference-paper
+    title: "MSD: A Benchmark Dataset for Floor Plan Generation of Building Complexes"
+    authors:
+      - family-names: van Engelenburg
+        given-names: Casper
+      - family-names: Mostafavi
+        given-names: Fatemeh
+      - family-names: Kuhn
+        given-names: Emanuel
+      - family-names: Jeon
+        given-names: Yuntae
+      - family-names: Franzen
+        given-names: Michael
+      - family-names: Standfest
+        given-names: Matthias
+      - family-names: van Gemert
+        given-names: Jan
+      - family-names: Khademi
+        given-names: Seyran
+    collection-title: "European Conference on Computer Vision (ECCV)"
+    year: 2024
+    doi: "10.1007/978-3-031-73636-0_4"
