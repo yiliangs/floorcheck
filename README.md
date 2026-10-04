@@ -5,8 +5,9 @@ gate ladder: an ordered list of validity checks (ingest, geometry, room sizes an
 adjacency), each of which either passes the plan or rejects it with a
 reason. It reports a verdict per rung, in JSON or as text. This archive also holds the one
 converter that writes floorcheck's plan schema from raw datasets, the Swiss documents that
-converter wrote for the thirteenth gate run, and the checker's own outcome table for that run, so
-a reader can reproduce the table without any other software.
+converter wrote for the thirteenth gate run, the geometry of the generated plans that run graded,
+and the checker's own outcome table for that run, so a reader can reproduce the table's rows without
+any other software.
 
 ## What the archive holds
 
@@ -20,16 +21,20 @@ a reader can reproduce the table without any other software.
 | `tools/msd_buildings.py` | infers which MSD floors belong to one building from the overlap of their structure grids, and writes the building key `--buildings` reads |
 | `tools/plan_level_floor.py` | fits the plan-level floors of rungs 2 and 3 at each false-rejection rate on half of the real plans and reports the margin on the other half, MSD split by building |
 | `data/msd/` | 18,351 plan documents from the Modified Swiss Dwellings dataset: every floor (`msd/`, 4,028 documents) and every apartment (`msd_units/`, 14,323 documents) of the first 4,167 floors of its training split, under CC BY 4.0 (see `ATTRIBUTION.md`) |
+| `data/generated/` | 14,902 generated plans, room types and polygons only: House-GAN++ (`houseganpp/`, 4,000), House-GAN (`housegan/`, 4,000), HouseDiffusion (`housediffusion/`, 3,991) and GSDiff (`gsdiff/`, 2,911), the documents the thirteenth run graded with every other field removed and each renamed `<generator>-<NNNN>` (see `ATTRIBUTION.md`) |
 | `tables/checker-outcomes-run13.md` | the checker's own pass rates and margin on the thirteenth run, copied unchanged from the run's committed record |
 
 ## What it leaves out, and why
 
 - **RPLAN documents.** RPLAN's licence forbids redistribution, so no document derived from it
   ships. Export them from your own copy of RPLAN (below).
-- **Generator samples** (House-GAN, House-GAN++, HouseDiffusion). The licences these projects
-  publish cover their code and weights, not their sample outputs, so their documents wait until
-  the licence of the samples is confirmed. The converter reads them; run it on samples you
-  generate.
+- **The generators' conditioning.** Every generated plan was drawn from a room program taken
+  from RPLAN, and each sample record names that RPLAN plan, its record index and bucket, and
+  carries the requested adjacency, doors and entry read from RPLAN. All of that is withheld:
+  `data/generated/` keeps each room's type and polygon, the source and its pixel size, which is
+  everything the checker grades. Names are sequence numbers in the order of a hash of each
+  document's own content, so they carry no RPLAN identifier. The converter reads full sample
+  records; run it on samples you generate.
 - **The specification** the checker implements, of which checks carry over to public data,
   accompanies the paper as supplementary material and is not in this archive.
 
@@ -64,6 +69,14 @@ must equal the same row of `tables/checker-outcomes-run13.md`. The floor documen
 too; the table carries no row for them. The table's other rows and its margin need the RPLAN and
 generator documents, which you export yourself.
 
+## Grade the generated plans and compare with the table
+
+    floorcheck-outcomes floorcheck-0.1.0/data/generated --out generated-outcomes.md
+
+The rows House-GAN++, House-GAN and HouseDiffusion under each of the three denominators must equal
+the same rows of `tables/checker-outcomes-run13.md`. The GSDiff documents are graded too (117 of
+2,911 pass); the table carries no row for them. The margin needs the MSD documents beside them.
+
 ## Export from your own data
 
 From your own copy of RPLAN (`data.mat` from the RPLAN distribution), the thirteenth run's sample
@@ -91,7 +104,8 @@ These are the commands the archive was tested with before deposit, run in a fres
 environment from a directory outside the archive. `A` is the unpacked archive; `MSD` is the
 extracted MSD training split; `RUN` is a directory holding all six groups of the thirteenth run's
 export (MSD floors and units, RPLAN, House-GAN, House-GAN++, HouseDiffusion), which you rebuild
-with `floorcheck-export` from your own RPLAN copy and generator samples.
+with `floorcheck-export` from your own RPLAN copy and generator samples; the deposited generated
+plans grade as the run's own documents did, plan by plan.
 
     python -m venv venv
     . venv/bin/activate         # Windows: venv\Scripts\activate
@@ -100,9 +114,11 @@ with `floorcheck-export` from your own RPLAN copy and generator samples.
     # 1. one deposited document: exit status 0 and a verdict
     floorcheck "A/data/msd/msd_units/0#u0.json" --format text
 
-    # 2. every deposited document: the "MSD ground truth, units path" row of each
-    #    denominator equals the same row of A/tables/checker-outcomes-run13.md
+    # 2. every deposited document: the "MSD ground truth, units path" row and the
+    #    House-GAN++, House-GAN and HouseDiffusion rows of each denominator equal
+    #    the same rows of A/tables/checker-outcomes-run13.md
     floorcheck-outcomes A/data/msd --out msd-outcomes.md
+    floorcheck-outcomes A/data/generated --out generated-outcomes.md
 
     # 3. the converter reproduces the deposit: every document it writes is
     #    byte-identical to the file of the same name under A/data/msd/
@@ -133,7 +149,8 @@ with `floorcheck-export` from your own RPLAN copy and generator samples.
     floorcheck-outcomes RUN --suppress roomProportions
 
 At deposit, step 1 reached no verdict, because `roomAppendices` did not run on a precondition
-fault; step 2 gave 10,079 passes of 14,323 graded apartments; step 3 wrote 39 floors and 149 apartments (floor 103 is refused, as in the deposit),
+fault; step 2 gave 10,079 passes of 14,323 graded apartments, and the three generator rows equal the
+table's; step 3 wrote 39 floors and 149 apartments (floor 103 is refused, as in the deposit),
 all identical; step 4 matched the table byte for byte; step 5 passed 131 tests. Grading the
 deposit takes about two minutes and the whole run about five. Steps 6 and 7 append their sections
 after the table of steps 2 and 4 and leave that table unchanged. Step 8 reverses the margin on
@@ -144,4 +161,5 @@ graded plans against the MSD apartments' 73.4.
 ## Licence and citation
 
 The software is under the MIT licence (`LICENSE`). The documents under `data/msd/` are under
-CC BY 4.0 with the attribution in `ATTRIBUTION.md`. `CITATION.cff` gives the citation.
+CC BY 4.0 with the attribution in `ATTRIBUTION.md`; the documents under `data/generated/` are under
+CC BY 4.0, with the generators credited in `ATTRIBUTION.md`. `CITATION.cff` gives the citation.

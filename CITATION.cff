@@ -1,8 +1,10 @@
 cff-version: 1.2.0
-message: "If you use this checker or the plan documents it ships, please cite it as below, and cite the Modified Swiss Dwellings dataset as ATTRIBUTION.md states."
+message: "If you use this checker or the plan documents it ships, please cite it as below, and cite the Modified Swiss Dwellings dataset and the generators as ATTRIBUTION.md states."
 title: "floorcheck: a public checker for room-polygon floor plans"
 type: software
 version: "0.1.0"
+date-released: 2026-10-03
+repository-code: "https://github.com/yiliangs/floorcheck"
 license: MIT
 authors:
   - family-names: Shao

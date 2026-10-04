@@ -1,0 +1,26 @@
+[
+  {
+    "group": "houseganpp",
+    "corpus": "rplan",
+    "directory": "data/generated/houseganpp",
+    "written": 4000
+  },
+  {
+    "group": "housegan",
+    "corpus": "rplan",
+    "directory": "data/generated/housegan",
+    "written": 4000
+  },
+  {
+    "group": "housediffusion",
+    "corpus": "rplan",
+    "directory": "data/generated/housediffusion",
+    "written": 3991
+  },
+  {
+    "group": "gsdiff",
+    "corpus": "rplan",
+    "directory": "data/generated/gsdiff",
+    "written": 2911
+  }
+]
