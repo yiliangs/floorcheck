@@ -22,4 +22,6 @@ SOFTWARE.
 
 The licence above covers the software. The plan documents under data/msd/ are
 derived from the Modified Swiss Dwellings dataset and are licensed separately
-under CC BY 4.0; see ATTRIBUTION.md.
+under CC BY 4.0, as that dataset requires. The geometry of the generated plans
+under data/generated/ is licensed separately under CC BY-NC 4.0, chosen to
+respect the generators' non-commercial terms. See ATTRIBUTION.md.

@@ -1,4 +1,4 @@
-# floorcheck 0.1.0
+# floorcheck 0.1.1
 
 floorcheck grades a floor plan, given as room polygons, against the transferable subset of a
 gate ladder: an ordered list of validity checks (ingest, geometry, room sizes and proportions,
@@ -21,7 +21,7 @@ any other software.
 | `tools/msd_buildings.py` | infers which MSD floors belong to one building from the overlap of their structure grids, and writes the building key `--buildings` reads |
 | `tools/plan_level_floor.py` | fits the plan-level floors of rungs 2 and 3 at each false-rejection rate on half of the real plans and reports the margin on the other half, MSD split by building |
 | `data/msd/` | 18,351 plan documents from the Modified Swiss Dwellings dataset: every floor (`msd/`, 4,028 documents) and every apartment (`msd_units/`, 14,323 documents) of the first 4,167 floors of its training split, under CC BY 4.0 (see `ATTRIBUTION.md`) |
-| `data/generated/` | 14,902 generated plans, room types and polygons only: House-GAN++ (`houseganpp/`, 4,000), House-GAN (`housegan/`, 4,000), HouseDiffusion (`housediffusion/`, 3,991) and GSDiff (`gsdiff/`, 2,911), the documents the thirteenth run graded with every other field removed and each renamed `<generator>-<NNNN>` (see `ATTRIBUTION.md`) |
+| `data/generated/` | 14,902 generated plans, room types and polygons only: House-GAN++ (`houseganpp/`, 4,000), House-GAN (`housegan/`, 4,000), HouseDiffusion (`housediffusion/`, 3,991) and GSDiff (`gsdiff/`, 2,911), the documents the thirteenth run graded with every other field removed and each renamed `<generator>-<NNNN>`, under CC BY-NC 4.0 (see `ATTRIBUTION.md`) |
 | `tables/checker-outcomes-run13.md` | the checker's own pass rates and margin on the thirteenth run, copied unchanged from the run's committed record |
 
 ## What it leaves out, and why
@@ -44,14 +44,14 @@ Python 3.11 or later.
 
     python -m venv .venv
     . .venv/bin/activate        # Windows: .venv\Scripts\activate
-    pip install floorcheck-0.1.0.zip
+    pip install floorcheck-0.1.1.zip
 
 This installs five commands: `floorcheck`, `floorcheck-export`, `floorcheck-outcomes`,
 `floorcheck-buildings` and `floorcheck-floors`.
 
 ## Grade one plan
 
-    floorcheck floorcheck-0.1.0/data/msd/msd_units/0#u0.json --format text
+    floorcheck floorcheck-0.1.1/data/msd/msd_units/0#u0.json --format text
 
 The default output is JSON: a header, the ingest outcome, the rungs this implementation does not
 grade and why, one entry per rung with its verdict and, on a rejection, the worst offender, and
@@ -61,7 +61,7 @@ failed. To write your own plan document, by hand or from your own converter, see
 
 ## Grade the Swiss documents and compare with the table
 
-    floorcheck-outcomes floorcheck-0.1.0/data/msd --out msd-outcomes.md
+    floorcheck-outcomes floorcheck-0.1.1/data/msd --out msd-outcomes.md
 
 `msd-outcomes.md` holds the row "MSD ground truth, units path" under each of three
 denominators (graded plans, plans the checker admitted, plans that reached a verdict). Each row
@@ -71,7 +71,7 @@ generator documents, which you export yourself.
 
 ## Grade the generated plans and compare with the table
 
-    floorcheck-outcomes floorcheck-0.1.0/data/generated --out generated-outcomes.md
+    floorcheck-outcomes floorcheck-0.1.1/data/generated --out generated-outcomes.md
 
 The rows House-GAN++, House-GAN and HouseDiffusion under each of the three denominators must equal
 the same rows of `tables/checker-outcomes-run13.md`. The GSDiff documents are graded too (117 of
@@ -87,7 +87,7 @@ of 4,000 plans:
 
 From the MSD training split, extracted from `modified-swiss-dwellings-v1-train.zip`, the
 documents under `data/msd/` again. MSD's graph files are pickled torch tensors, so this needs the
-`msd` extra (`pip install "floorcheck-0.1.0.zip[msd]"`):
+`msd` extra (`pip install "floorcheck-0.1.1.zip[msd]"`):
 
     floorcheck-export --msd 4167 --msd-units 4000 --msd-root /path/to/train_extracted --out msd-plans
 
@@ -109,7 +109,7 @@ plans grade as the run's own documents did, plan by plan.
 
     python -m venv venv
     . venv/bin/activate         # Windows: venv\Scripts\activate
-    pip install "floorcheck-0.1.0.zip[msd]"
+    pip install "floorcheck-0.1.1.zip[msd]"
 
     # 1. one deposited document: exit status 0 and a verdict
     floorcheck "A/data/msd/msd_units/0#u0.json" --format text
@@ -160,6 +160,8 @@ graded plans against the MSD apartments' 73.4.
 
 ## Licence and citation
 
-The software is under the MIT licence (`LICENSE`). The documents under `data/msd/` are under
-CC BY 4.0 with the attribution in `ATTRIBUTION.md`; the documents under `data/generated/` are under
-CC BY 4.0, with the generators credited in `ATTRIBUTION.md`. `CITATION.cff` gives the citation.
+The checker and its tools are under the MIT licence (`LICENSE`). The converted MSD documents under
+`data/msd/` are under CC BY 4.0, as MSD requires, with the attribution in `ATTRIBUTION.md`. The
+generated plans' geometry under `data/generated/` is under CC BY-NC 4.0, chosen to respect the
+generators' non-commercial terms, with the generators credited in `ATTRIBUTION.md`.
+`CITATION.cff` gives the citation.

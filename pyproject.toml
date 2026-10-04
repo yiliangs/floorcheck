@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "floorcheck"
-version = "0.1.0"
+version = "0.1.1"
 description = "A public checker that grades room-polygon floor plans against the transferable subset of a gate ladder, with the converter that writes its plan schema from RPLAN, MSD and generator outputs."
 readme = "README.md"
 license = "MIT"
